@@ -4,16 +4,18 @@ import * as GraphQLTypes from 'src/graphql-types';
 import { PrismaClient } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { UserInputError } from '@nestjs/apollo';
+import { hashPassword } from 'src/shared/user-utilities';
 
 const prisma = new PrismaClient()
 
 @Injectable()
-export class RegisterService {
+export class UserService {
   constructor() { }
 
   async create(createUserInput: CreateUserInput): Promise<GraphQLTypes.User> {
     try {
-      return await prisma.user.create({ data: createUserInput })
+      const passwordHashed = await hashPassword(createUserInput.password)
+      return await prisma.user.create({ data: {...createUserInput, password: passwordHashed} })
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2002") {
@@ -23,4 +25,6 @@ export class RegisterService {
       throw new UserInputError(`Une erreur server s'est produite`)
     }
   }
+
+  // async login(loginUserInput: GraphQLTypes.LoginUserInput)
 }

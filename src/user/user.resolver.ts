@@ -1,15 +1,14 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import * as GraphQLTypes from 'src/graphql-types';
 import { CreateUserInput } from './dto/create-user.dto';
-import { RegisterService } from './register.service';
+import { UserService } from './user.service';
 
 @Resolver('user')
-export class RegisterResolver {
-  constructor(private readonly registerService: RegisterService) {}
+export class UserResolver {
+  constructor(private readonly userService: UserService) {}
 
   @Query('users')
   async findAll(): Promise<GraphQLTypes.User[]> {
-    console.log('je passe dans le find all');
     return [];
   }
 
@@ -17,6 +16,6 @@ export class RegisterResolver {
   async create(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<GraphQLTypes.User> {
-    return this.registerService.create(createUserInput);
+    return this.userService.create(createUserInput);
   }
 }

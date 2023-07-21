@@ -15,6 +15,11 @@ export class CreateUserInput {
     birthDay: string;
 }
 
+export class LoginUserInput {
+    email: string;
+    password: string;
+}
+
 export class User {
     id: number;
     name: string;
@@ -30,6 +35,7 @@ export abstract class IQuery {
 
 export abstract class IMutation {
     createUser?: User;
+    loginUser?: User;
 }
 
 type Nullable<T> = T | null;
