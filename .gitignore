@@ -2,13 +2,14 @@
 /dist
 /node_modules
 .yarn
+yarn.lock
+graphql-types.ts
 
 # env
 .env
 
 #database
 database.sqlite
-yarn.lock
 
 # Logs
 logs

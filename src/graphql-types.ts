@@ -29,13 +29,23 @@ export class User {
     createAt: Date;
 }
 
+export class LoginResponse {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    birthDay: Date;
+    createAt: Date;
+    token: string;
+}
+
 export abstract class IQuery {
     users: User[];
 }
 
 export abstract class IMutation {
     createUser?: User;
-    loginUser?: User;
+    loginUser?: LoginResponse;
 }
 
 type Nullable<T> = T | null;

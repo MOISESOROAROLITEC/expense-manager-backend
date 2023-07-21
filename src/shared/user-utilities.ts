@@ -16,7 +16,7 @@ export function generateIban(): string {
   return accountNumber;
 }
 
-export function generateToken(userData: object): string {
+export function generateToken(userData: {id:number, name:string}): string {
   const options = { expiresIn: "1d" };
   const secretKey = process.env.SECRET_KEY || "";
   return jwt.sign(userData, secretKey, options);
