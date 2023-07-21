@@ -11,15 +11,15 @@
 export class CreateUserInput {
     name: string;
     email: string;
-    passeword: string;
-    birthDay: Date;
+    password: string;
+    birthDay: string;
 }
 
 export class User {
     id: number;
     name: string;
     email: string;
-    passeword: string;
+    password: string;
     birthDay: Date;
     createAt: Date;
 }

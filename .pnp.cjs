@@ -37,18 +37,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/platform-express", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:10.1.0"],\
             ["@nestjs/schematics", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:10.0.1"],\
             ["@nestjs/testing", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:10.1.0"],\
+            ["@prisma/client", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.0.0"],\
             ["@types/express", "npm:4.17.17"],\
             ["@types/jest", "npm:29.5.3"],\
             ["@types/node", "npm:20.4.2"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["@typescript-eslint/eslint-plugin", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.62.0"],\
             ["@typescript-eslint/parser", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.62.0"],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.14.0"],\
             ["eslint", "npm:8.45.0"],\
             ["eslint-config-prettier", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:8.8.0"],\
             ["eslint-plugin-prettier", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:4.2.1"],\
             ["graphql", "npm:16.7.1"],\
             ["jest", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:29.6.1"],\
             ["prettier", "npm:2.8.8"],\
+            ["prisma", "npm:5.0.0"],\
             ["reflect-metadata", "npm:0.1.13"],\
             ["rxjs", "npm:7.8.1"],\
             ["source-map-support", "npm:0.5.21"],\
@@ -2156,8 +2160,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/class-validator", null],\
             ["@types/reflect-metadata", null],\
             ["@types/rxjs", null],\
-            ["class-transformer", null],\
-            ["class-validator", null],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.14.0"],\
             ["iterare", "npm:1.2.1"],\
             ["reflect-metadata", "npm:0.1.13"],\
             ["rxjs", "npm:7.8.1"],\
@@ -2253,8 +2257,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/reflect-metadata", null],\
             ["@types/ts-morph", null],\
             ["chokidar", "npm:3.5.3"],\
-            ["class-transformer", null],\
-            ["class-validator", null],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.14.0"],\
             ["fast-glob", "npm:3.2.12"],\
             ["graphql", "npm:16.7.1"],\
             ["graphql-tag", "virtual:df1f1830a5e8ff4d9abfaf50369f181c65a43b5f703d785e1b2cdd45860d1167d833d286e8e56ca02fa3caef9ecfe9e8cc6362a2990195ec83b47404e4109e67#npm:2.12.6"],\
@@ -2306,8 +2310,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/class-validator", null],\
             ["@types/nestjs__common", null],\
             ["@types/reflect-metadata", null],\
-            ["class-transformer", null],\
-            ["class-validator", null],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.14.0"],\
             ["reflect-metadata", "npm:0.1.13"]\
           ],\
           "packagePeers": [\
@@ -2474,6 +2478,47 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@pkgjs-parseargs-npm-0.11.0-cd2a3fe948-6ad6a00fc4.zip/node_modules/@pkgjs/parseargs/",\
           "packageDependencies": [\
             ["@pkgjs/parseargs", "npm:0.11.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@prisma/client", [\
+        ["npm:5.0.0", {\
+          "packageLocation": "./.yarn/unplugged/@prisma-client-virtual-bd1081b51b/node_modules/@prisma/client/",\
+          "packageDependencies": [\
+            ["@prisma/client", "npm:5.0.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.0.0", {\
+          "packageLocation": "./.yarn/unplugged/@prisma-client-virtual-bd1081b51b/node_modules/@prisma/client/",\
+          "packageDependencies": [\
+            ["@prisma/client", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.0.0"],\
+            ["@prisma/engines-version", "npm:4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"],\
+            ["@types/prisma", null],\
+            ["prisma", "npm:5.0.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/prisma",\
+            "prisma"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@prisma/engines", [\
+        ["npm:5.0.0", {\
+          "packageLocation": "./.yarn/unplugged/@prisma-engines-npm-5.0.0-9f601585ff/node_modules/@prisma/engines/",\
+          "packageDependencies": [\
+            ["@prisma/engines", "npm:5.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@prisma/engines-version", [\
+        ["npm:4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584", {\
+          "packageLocation": "./.yarn/cache/@prisma-engines-version-npm-4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584-4c61045fc7-8fcbceef3b.zip/node_modules/@prisma/engines-version/",\
+          "packageDependencies": [\
+            ["@prisma/engines-version", "npm:4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2996,6 +3041,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/supertest", "npm:2.0.12"],\
             ["@types/superagent", "npm:4.1.18"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/validator", [\
+        ["npm:13.7.17", {\
+          "packageLocation": "./.yarn/cache/@types-validator-npm-13.7.17-200baed5c4-a827e480c0.zip/node_modules/@types/validator/",\
+          "packageDependencies": [\
+            ["@types/validator", "npm:13.7.17"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4048,8 +4102,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/browserslist-npm-4.21.9-f6128308c1-80d3820584.zip/node_modules/browserslist/",\
           "packageDependencies": [\
             ["browserslist", "npm:4.21.9"],\
-            ["caniuse-lite", "npm:1.0.30001516"],\
-            ["electron-to-chromium", "npm:1.4.463"],\
+            ["caniuse-lite", "npm:1.0.30001517"],\
+            ["electron-to-chromium", "npm:1.4.464"],\
             ["node-releases", "npm:2.0.13"],\
             ["update-browserslist-db", "virtual:f6128308c12e2b37fe427262226a88e213eb66128b3445db14a7af8a6dafb815a9c4562e232b574e216fb796ee19313d71844b195e41ad82170480289a6b575c#npm:1.0.11"]\
           ],\
@@ -4173,10 +4227,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["caniuse-lite", [\
-        ["npm:1.0.30001516", {\
-          "packageLocation": "./.yarn/cache/caniuse-lite-npm-1.0.30001516-399d435c2f-044adf3493.zip/node_modules/caniuse-lite/",\
+        ["npm:1.0.30001517", {\
+          "packageLocation": "./.yarn/cache/caniuse-lite-npm-1.0.30001517-43126c8553-e4e87436ae.zip/node_modules/caniuse-lite/",\
           "packageDependencies": [\
-            ["caniuse-lite", "npm:1.0.30001516"]\
+            ["caniuse-lite", "npm:1.0.30001517"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4269,6 +4323,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cjs-module-lexer-npm-1.2.3-9d788a3c14-5ea3cb867a.zip/node_modules/cjs-module-lexer/",\
           "packageDependencies": [\
             ["cjs-module-lexer", "npm:1.2.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["class-transformer", [\
+        ["npm:0.5.1", {\
+          "packageLocation": "./.yarn/cache/class-transformer-npm-0.5.1-96b5161e6c-f191c8b4cc.zip/node_modules/class-transformer/",\
+          "packageDependencies": [\
+            ["class-transformer", "npm:0.5.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["class-validator", [\
+        ["npm:0.14.0", {\
+          "packageLocation": "./.yarn/cache/class-validator-npm-0.14.0-b600d5fe72-f62e4a0ad2.zip/node_modules/class-validator/",\
+          "packageDependencies": [\
+            ["class-validator", "npm:0.14.0"],\
+            ["@types/validator", "npm:13.7.17"],\
+            ["libphonenumber-js", "npm:1.10.37"],\
+            ["validator", "npm:13.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4830,10 +4905,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["electron-to-chromium", [\
-        ["npm:1.4.463", {\
-          "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.4.463-e75da4d50f-0f8d9b7ac7.zip/node_modules/electron-to-chromium/",\
+        ["npm:1.4.464", {\
+          "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.4.464-7e28c6c76e-4400ddeee0.zip/node_modules/electron-to-chromium/",\
           "packageDependencies": [\
-            ["electron-to-chromium", "npm:1.4.463"]\
+            ["electron-to-chromium", "npm:1.4.464"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5274,18 +5349,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@nestjs/platform-express", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:10.1.0"],\
             ["@nestjs/schematics", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:10.0.1"],\
             ["@nestjs/testing", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:10.1.0"],\
+            ["@prisma/client", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.0.0"],\
             ["@types/express", "npm:4.17.17"],\
             ["@types/jest", "npm:29.5.3"],\
             ["@types/node", "npm:20.4.2"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["@typescript-eslint/eslint-plugin", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.62.0"],\
             ["@typescript-eslint/parser", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:5.62.0"],\
+            ["class-transformer", "npm:0.5.1"],\
+            ["class-validator", "npm:0.14.0"],\
             ["eslint", "npm:8.45.0"],\
             ["eslint-config-prettier", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:8.8.0"],\
             ["eslint-plugin-prettier", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:4.2.1"],\
             ["graphql", "npm:16.7.1"],\
             ["jest", "virtual:ba8d1725403d333317fdf43b36892bf32178a5647fb257fc4471224d5e3f697c494c0b778e5671736b867c3cb65e08a30059471a06d46a5a92e4aa3850c4269e#npm:29.6.1"],\
             ["prettier", "npm:2.8.8"],\
+            ["prisma", "npm:5.0.0"],\
             ["reflect-metadata", "npm:0.1.13"],\
             ["rxjs", "npm:7.8.1"],\
             ["source-map-support", "npm:0.5.21"],\
@@ -7166,6 +7245,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["libphonenumber-js", [\
+        ["npm:1.10.37", {\
+          "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.10.37-79b0943385-c28f762322.zip/node_modules/libphonenumber-js/",\
+          "packageDependencies": [\
+            ["libphonenumber-js", "npm:1.10.37"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["lines-and-columns", [\
         ["npm:1.2.4", {\
           "packageLocation": "./.yarn/cache/lines-and-columns-npm-1.2.4-d6c7cc5799-0c37f9f7fa.zip/node_modules/lines-and-columns/",\
@@ -8209,6 +8297,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jest/schemas", "npm:29.6.0"],\
             ["ansi-styles", "npm:5.2.0"],\
             ["react-is", "npm:18.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["prisma", [\
+        ["npm:5.0.0", {\
+          "packageLocation": "./.yarn/unplugged/prisma-npm-5.0.0-f854c0a4f2/node_modules/prisma/",\
+          "packageDependencies": [\
+            ["prisma", "npm:5.0.0"],\
+            ["@prisma/engines", "npm:5.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9710,6 +9808,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jridgewell/trace-mapping", "npm:0.3.18"],\
             ["@types/istanbul-lib-coverage", "npm:2.0.4"],\
             ["convert-source-map", "npm:1.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["validator", [\
+        ["npm:13.9.0", {\
+          "packageLocation": "./.yarn/cache/validator-npm-13.9.0-54b07e9e81-e2c936f041.zip/node_modules/validator/",\
+          "packageDependencies": [\
+            ["validator", "npm:13.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\

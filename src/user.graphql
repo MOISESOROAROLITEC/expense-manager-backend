@@ -4,7 +4,7 @@ type User {
   id: ID!
   name: String!
   email: String!
-  passeword: String!
+  password: String!
   birthDay: Date!
   createAt: Date!
 }
@@ -12,8 +12,8 @@ type User {
 input CreateUserInput {
   name: String!
   email: String!
-  passeword: String!
-  birthDay: Date!
+  password: String!
+  birthDay: String!
 }
 
 type Query {

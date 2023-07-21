@@ -3,6 +3,13 @@
 /node_modules
 .yarn
 
+# env
+.env
+
+#database
+database.sqlite
+yarn.lock
+
 # Logs
 logs
 *.log
