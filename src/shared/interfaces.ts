@@ -1,11 +1,7 @@
 import { User } from "@prisma/client";
 
 
-export interface tokenDecryptedInterface {
-	id: number;
-	name: string;
-	password?: string;
-	email?: string
+export interface tokenDecryptedInterface extends User {
 	iat: number;
 	exp: number;
 }

@@ -5,6 +5,10 @@
 yarn.lock
 graphql-types.ts
 
+# other
+prisma/migrations
+*.png
+
 # env
 .env
 

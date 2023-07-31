@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { GetUserByToken, tokenDecryptedInterface } from "./constantes";
+import { GetUserByToken, tokenDecryptedInterface } from "./interfaces";
 
 const prisma = new PrismaClient();
 
@@ -16,7 +16,7 @@ export function generateIban(): string {
   return accountNumber;
 }
 
-export function generateToken(userData: {id:number, name:string}): string {
+export function generateToken(userData: { id: number, name: string }): string {
   const options = { expiresIn: "1d" };
   const secretKey = process.env.SECRET_KEY || "";
   return jwt.sign(userData, secretKey, options);
@@ -64,16 +64,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserByToken = async (
-  req: Request,
-  res: Response
-): Promise<GetUserByToken> => {
+export const getUserByToken = async (token: string): Promise<GetUserByToken> => {
   try {
-    const authorization = req.headers.authorization;
-    if (!authorization || !authorization.startsWith("Bearer ")) {
-      return { status: 400, message: "Faite la requete avec un Bearer token" };
-    }
-    const token = authorization.substring(7);
     const tokenDecrypted = decryptToken(token) as
       | tokenDecryptedInterface
       | undefined;
@@ -87,7 +79,6 @@ export const getUserByToken = async (
       return {
         status: 404,
         message: "L'utilisateur de ce token est introuvable",
-        user,
       };
     }
     return { status: 200, message: "ok", user };
@@ -95,3 +86,7 @@ export const getUserByToken = async (
     return { status: 500, message: "Le serveur a craché" };
   }
 };
+
+export function saveUserImageAsFile(imageBuffer: Buffer) {
+
+}

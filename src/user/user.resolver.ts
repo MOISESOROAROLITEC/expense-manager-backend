@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, ResolveField, Query, Resolver } from '@nestjs/graphql';
 import * as GraphQLTypes from 'src/graphql-types';
 import { CreateUserInput } from './dto/create-user.dto';
 import { UserService } from './user.service';
@@ -10,7 +10,7 @@ export class UserResolver {
 
   @Query('users')
   async findAll(): Promise<GraphQLTypes.User[]> {
-    return [];
+    return this.userService.getUsers()
   }
 
   @Mutation('createUser')
@@ -20,10 +20,15 @@ export class UserResolver {
     return this.userService.create(createUserInput);
   }
 
+  @Query('getUserByToken')
+  async uploadImage(@Args("token") token: string): Promise<GraphQLTypes.User> {
+    return this.userService.getUserByToken(token);
+  }
+
   @Mutation("loginUser")
   async login(
     @Args("loginUserInput") loginUserInput: LoginUserInput
-  ): Promise<GraphQLTypes.LoginResponse> {
+  ): Promise<GraphQLTypes.User> {
     return this.userService.login(loginUserInput);
   }
 }
