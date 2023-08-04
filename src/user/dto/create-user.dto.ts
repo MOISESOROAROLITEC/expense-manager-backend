@@ -1,5 +1,5 @@
 import { File } from 'buffer';
-import { IsEmail, IsObject, MaxLength, MinLength } from 'class-validator';
+import { IsDate, IsDateString, IsEmail, MaxLength, MinLength } from 'class-validator';
 import * as GraphQLTypes from 'src/graphql-types';
 
 export class CreateUserInput extends GraphQLTypes.CreateUserInput {
@@ -12,4 +12,9 @@ export class CreateUserInput extends GraphQLTypes.CreateUserInput {
 
   @MinLength(8, { message: 'Le mot de pass doit contenire au moin 8 caractères', })
   password: string;
+
+  @IsDateString()
+  birthDay: string;
+  
+  image?: any;
 }

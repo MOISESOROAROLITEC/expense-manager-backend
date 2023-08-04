@@ -27,11 +27,8 @@ export function generateResetToken(email: string): string {
   return jwt.sign(email, secretKey);
 }
 
-export function decryptToken(
-  token: string
-): string | jwt.JwtPayload | undefined {
-  const secretKey =
-    process.env.SECRET_KEY
+export function decryptToken(token: string): string | jwt.JwtPayload | undefined {
+  const secretKey = process.env.SECRET_KEY
 
   try {
     return jwt.verify(token, secretKey);
@@ -64,8 +61,12 @@ export const verifyEmail = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserByToken = async (token: string): Promise<GetUserByToken> => {
+export const getUserByToken = async (bearerToken: string): Promise<GetUserByToken> => {
   try {
+    if (!bearerToken || !bearerToken.startsWith("Bearer ")) {
+      return { status: 400, message: "Faite la requete avec un Bearer token" };
+    }
+    const token = bearerToken.substring(7);
     const tokenDecrypted = decryptToken(token) as
       | tokenDecryptedInterface
       | undefined;

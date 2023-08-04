@@ -1,0 +1,16 @@
+type Transaction {
+  id: ID!
+  type: String!
+  amount: Int!
+  accountType: String!
+  subject: String
+  author: User
+  createAt: Date!
+}
+
+input CreateTransactionInput {
+  type: String!
+  amount: Int!
+  accountType: String!
+  subject: String
+}
