@@ -28,6 +28,6 @@ model Transaction {
   accountType String
   subject     String
   createAt    DateTime @default(now())
-  author      User     @relation(fields: [userId], references: [id])
+  author      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId      Int
 }

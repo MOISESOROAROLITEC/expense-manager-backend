@@ -74,7 +74,7 @@ export const getUserByToken = async (bearerToken: string): Promise<GetUserByToke
       return { status: 401, message: "Le token est incorrect" };
     }
     const user = await prisma.user.findUnique({
-      where: { id: tokenDecrypted.id },
+      where: { id: tokenDecrypted.id }
     });
     if (!user) {
       return {
