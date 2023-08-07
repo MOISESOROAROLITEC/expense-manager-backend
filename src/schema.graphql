@@ -3,7 +3,7 @@ scalar Date
 
 type Query {
   users: [User!]!
-  getUserByToken(token: String): User!
+  getUserByToken: User!
 }
 
 type Mutation {
