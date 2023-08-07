@@ -16,7 +16,7 @@ export class UserResolver {
   async findAll(): Promise<GraphQLTypes.User[]> {
     return this.userService.getUsers();
   }
-  
+
   @Mutation('createUser')
   @Public()
   async create(
@@ -34,8 +34,8 @@ export class UserResolver {
   }
 
   @Query('getUserByToken')
-  async getUserInformationByToken(@Context() req:{user:GraphQLTypes.User}): Promise<GraphQLTypes.User> {
-    return await this.userService.getUserByToken("Bearer "+req.user.token)
+  async getUserInformationByToken(@Context() req: { user: GraphQLTypes.User }): Promise<GraphQLTypes.User> {
+    return req.user
   }
 
 }

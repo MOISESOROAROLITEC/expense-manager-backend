@@ -1,16 +1,18 @@
+scalar Enumerator
+
 type Transaction {
   id: ID!
-  type: String!
+  type: Enumerator!
   amount: Int!
-  accountType: String!
+  accountType: Enumerator!
   subject: String
   author: User
   createAt: Date!
 }
 
 input CreateTransactionInput {
-  type: String!
+  type: Enumerator!
   amount: Int!
-  accountType: String!
+  accountType: Enumerator!
   subject: String
 }
