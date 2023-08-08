@@ -17,6 +17,11 @@ export class UserResolver {
     return this.userService.getUsers();
   }
 
+  @Query('getUserByToken')
+  async getUserInformationByToken(@Context() req: { user: GraphQLTypes.User }): Promise<GraphQLTypes.User> {
+    return req.user
+  }
+
   @Mutation('createUser')
   @Public()
   async create(
@@ -33,9 +38,10 @@ export class UserResolver {
     return this.userService.login(loginUserInput)
   }
 
-  @Query('getUserByToken')
-  async getUserInformationByToken(@Context() req: { user: GraphQLTypes.User }): Promise<GraphQLTypes.User> {
-    return req.user
+  @Mutation("updateUserTarget")
+  async updateUserTarget(@Args("target") target: number, @Context() req: { user: GraphQLTypes.User }): Promise<GraphQLTypes.User> {
+    return this.userService.updateUserTarget(req.user, target)
   }
+
 
 }
