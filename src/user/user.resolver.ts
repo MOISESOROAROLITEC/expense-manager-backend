@@ -9,7 +9,7 @@ import { Public } from 'src/shared/decorators/public/public.decorator';
 
 @Resolver()
 export class UserResolver {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Query('users')
   @UseGuards(new AdminGuard())
@@ -18,8 +18,10 @@ export class UserResolver {
   }
 
   @Query('getUserByToken')
-  async getUserInformationByToken(@Context() req: { user: GraphQLTypes.User }): Promise<GraphQLTypes.User> {
-    return req.user
+  async getUserInformationByToken(
+    @Context() req: { user: GraphQLTypes.User },
+  ): Promise<GraphQLTypes.User> {
+    return req.user;
   }
 
   @Mutation('createUser')
@@ -31,17 +33,18 @@ export class UserResolver {
   }
 
   @Public()
-  @Mutation("loginUser")
+  @Mutation('loginUser')
   async login(
-    @Args("loginUserInput") loginUserInput: LoginUserInput
+    @Args('loginUserInput') loginUserInput: LoginUserInput,
   ): Promise<GraphQLTypes.User> {
-    return this.userService.login(loginUserInput)
+    return this.userService.login(loginUserInput);
   }
 
-  @Mutation("updateUserTarget")
-  async updateUserTarget(@Args("target") target: number, @Context() req: { user: GraphQLTypes.User }): Promise<GraphQLTypes.User> {
-    return this.userService.updateUserTarget(req.user, target)
+  @Mutation('updateUserTarget')
+  async updateUserTarget(
+    @Args('target') target: number,
+    @Context() req: { user: GraphQLTypes.User },
+  ): Promise<GraphQLTypes.User> {
+    return this.userService.updateUserTarget(req.user, target);
   }
-
-
 }

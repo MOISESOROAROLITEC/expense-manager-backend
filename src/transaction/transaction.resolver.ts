@@ -5,11 +5,18 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 
 @Resolver()
 export class TransactionResolver {
-  constructor(private readonly transactyionServices: TransactionService) {
-  }
+  constructor(private readonly transactyionServices: TransactionService) {}
 
-  @Mutation("createTransaction")
-  async create(@Args("createTransactionInput") createTransactionInput: CreateTransactionDto, @Context() req: { user: GrapQLTypes.User }): Promise<GrapQLTypes.Transaction> {
-    return this.transactyionServices.create(req.user.id, createTransactionInput)
+  @Mutation('createTransaction')
+  async create(
+    @Args('createTransactionInput')
+    createTransactionInput: CreateTransactionDto,
+    @Context() req: { user: GrapQLTypes.User },
+  ): Promise<GrapQLTypes.Transaction> {
+    return this.transactyionServices.create(
+      req.user.id,
+      req.user.amount,
+      createTransactionInput,
+    );
   }
 }

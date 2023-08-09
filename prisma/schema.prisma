@@ -27,6 +27,7 @@ model Transaction {
   amount      Int
   accountType String
   subject     String?
+  date        DateTime
   createAt    DateTime @default(now())
   author      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId      Int

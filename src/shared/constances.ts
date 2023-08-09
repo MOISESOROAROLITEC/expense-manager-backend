@@ -1,9 +1,10 @@
-export enum AccountTypes{
-  "Caisse",
-  "Banque",
+export enum accountTypeEnum {
+  "Bank",
+  "Bourse",
+  "BoxMoney",
 }
 
-export enum TransactionType{
+export enum transactionTypeEnum {
   "Debit",
-  "Credit"
+  "Credit",
 }
