@@ -2,7 +2,7 @@ scalar Enumerator
 
 type Transaction {
   id: ID!
-  type: Enumerator!
+  transactionType: Enumerator!
   amount: Int!
   accountType: Enumerator!
   subject: String
@@ -12,7 +12,7 @@ type Transaction {
 }
 
 input CreateTransactionInput {
-  type: Enumerator!
+  transactionType: Enumerator!
   amount: Int!
   accountType: Enumerator!
   subject: String
