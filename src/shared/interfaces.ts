@@ -1,13 +1,16 @@
-import { User } from "@prisma/client";
+import * as GraphQLTypes from "src/graphql-types";
 
-
-export interface tokenDecryptedInterface extends User {
-	iat: number;
-	exp: number;
+export interface tokenDecryptedInterface extends GraphQLTypes.User {
+  iat: number;
+  exp: number;
 }
 
 export interface GetUserByToken {
-	status: number,
-	message: string,
-	user?: User | null
+  status: number;
+  message: string;
+  user?: GraphQLTypes.User | null;
+}
+
+export interface UserFromContext {
+  user: GraphQLTypes.User;
 }

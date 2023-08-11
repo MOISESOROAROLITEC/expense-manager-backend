@@ -56,4 +56,13 @@ export class TransactionService {
       );
     }
   }
+
+  async getUserTransactions(
+    userId: number,
+  ): Promise<GrapQLTypes.Transaction[]> {
+    const transactions = await prisma.transaction.findMany({
+      where: { userId },
+    });
+    return transactions;
+  }
 }

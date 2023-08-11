@@ -9,10 +9,15 @@ type User {
   amount: Int!
   target: Int!
   createAt: Date!
-  transactions: [Transaction]
+  transactions(pageSize: Int!, offset: Int!): Transactions!
 }
 
-input InputImage{
+type Transactions {
+  totalCount: Int!
+  transactions: [Transaction!]!
+}
+
+input InputImage {
   fileName: String!
   fileData: String!
 }
@@ -32,7 +37,6 @@ input LoginUserInput {
   password: String!
 }
 
-
 type UploadImageResponse {
   status: Boolean!
 }
@@ -44,5 +48,5 @@ type LoginResponse {
   password: String!
   birthDay: Date!
   createAt: Date!
-  token:String!
+  token: String!
 }

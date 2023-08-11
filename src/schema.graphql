@@ -3,12 +3,15 @@ scalar Date
 
 type Query {
   users: [User!]!
-  getUserByToken: User!
+  user: User!
+  getUserTransactions: [Transaction!]!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   loginUser(loginUserInput: LoginUserInput!): User!
   updateUserTarget(target: Int!): User!
-  createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
+  createTransaction(
+    createTransactionInput: CreateTransactionInput!
+  ): Transaction!
 }
