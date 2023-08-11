@@ -1,17 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.dto';
-import * as GraphQLTypes from 'src/graphql-types';
-import { PrismaClient } from '@prisma/client';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { UserInputError } from '@nestjs/apollo';
+import { Injectable } from "@nestjs/common";
+import { CreateUserInput } from "./dto/create-user.dto";
+import * as GraphQLTypes from "src/graphql-types";
+import { PrismaClient } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { UserInputError } from "@nestjs/apollo";
 import {
   comparePassword,
   generateToken,
   getUserByToken,
   hashPassword,
-} from 'src/shared/user-utilities';
-import { LoginUserInput } from './dto/login-user.dto';
-import { loginError } from 'src/shared/throw-errors';
+} from "src/shared/user-utilities";
+import { LoginUserInput } from "./dto/login-user.dto";
+import { loginError } from "src/shared/throw-errors";
 
 const prisma = new PrismaClient();
 
@@ -47,7 +47,7 @@ export class UserService {
       return { ...user, token };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
+        if (error.code === "P2002") {
           throw new UserInputError(
             `L'email '${createUserInput.email}' est déjà utilisé`,
           );
@@ -68,7 +68,12 @@ export class UserService {
       if (!isMatch) {
         loginError();
       }
-      return { ...user };
+      const newToken = generateToken({ id: user.id, name: user.name });
+      const newUser = await prisma.user.update({
+        where: { id: user.id },
+        data: { token: newToken },
+      });
+      return newUser;
     } catch (error) {
       loginError();
     }

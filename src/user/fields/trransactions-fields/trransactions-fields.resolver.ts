@@ -1,3 +1,4 @@
+import { UserInputError } from "@nestjs/apollo";
 import { Args, Context, Parent, ResolveField, Resolver } from "@nestjs/graphql";
 import { PrismaClient } from "@prisma/client";
 import * as GraphQLTypes from "src/graphql-types";
@@ -14,17 +15,23 @@ export class TrransactionsFieldsResolver {
     @Args("offset") offset: number,
     @Context() req: UserFromContext,
   ): Promise<GraphQLTypes.Transactions> {
-    const transactions = await prisma.transaction.findMany({
-      where: { userId: user.id },
-      take: pageSize,
-      skip: offset,
-      orderBy: { createAt: "desc" },
-    });
+    try {
+      const transactions = await prisma.transaction.findMany({
+        where: { userId: user.id },
+        take: pageSize,
+        skip: offset,
+        orderBy: { createAt: "desc" },
+      });
 
-    const count = await prisma.transaction.count({
-      where: { userId: user.id },
-    });
+      const count = await prisma.transaction.count({
+        where: { userId: user.id },
+      });
 
-    return { totalCount: count, transactions };
+      return { totalCount: count, transactions };
+    } catch (error) {
+      throw new UserInputError(
+        "Impossible de recuperer les transactions, une erreur s'est produite",
+      );
+    }
   }
 }
