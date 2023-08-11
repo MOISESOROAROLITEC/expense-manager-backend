@@ -8,6 +8,7 @@ type Transaction {
   subject: String
   date: Date!
   author: User
+  deletedAt: Date
   createAt: Date!
 }
 

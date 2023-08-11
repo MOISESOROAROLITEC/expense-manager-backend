@@ -22,13 +22,14 @@ model User {
 }
 
 model Transaction {
-  id              Int      @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   transactionType String
   amount          Int
   accountType     String
   subject         String?
   date            DateTime
-  createAt        DateTime @default(now())
-  author          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  deletedAt       DateTime?
+  createAt        DateTime  @default(now())
+  author          User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId          Int
 }

@@ -16,7 +16,7 @@ export function generateIban(): string {
   return accountNumber;
 }
 
-export function generateToken(userData: { id: number, name: string }): string {
+export function generateToken(userData: { id: number; name: string }): string {
   const options = { expiresIn: "1d" };
   const secretKey = process.env.SECRET_KEY || "";
   return jwt.sign(userData, secretKey, options);
@@ -27,8 +27,10 @@ export function generateResetToken(email: string): string {
   return jwt.sign(email, secretKey);
 }
 
-export function decryptToken(token: string): string | jwt.JwtPayload | undefined {
-  const secretKey = process.env.SECRET_KEY
+export function decryptToken(
+  token: string,
+): string | jwt.JwtPayload | undefined {
+  const secretKey = process.env.SECRET_KEY;
 
   try {
     return jwt.verify(token, secretKey);
@@ -61,7 +63,9 @@ export const verifyEmail = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserByToken = async (bearerToken: string): Promise<GetUserByToken> => {
+export const getUserByToken = async (
+  bearerToken: string,
+): Promise<GetUserByToken> => {
   try {
     if (!bearerToken || !bearerToken.startsWith("Bearer ")) {
       return { status: 400, message: "Faite la requete avec un Bearer token" };
@@ -74,7 +78,7 @@ export const getUserByToken = async (bearerToken: string): Promise<GetUserByToke
       return { status: 401, message: "Le token est incorrect" };
     }
     const user = await prisma.user.findUnique({
-      where: { id: tokenDecrypted.id, token }
+      where: { id: tokenDecrypted.id, token },
     });
     if (!user) {
       return {
@@ -88,6 +92,4 @@ export const getUserByToken = async (bearerToken: string): Promise<GetUserByToke
   }
 };
 
-export function saveUserImageAsFile(imageBuffer: Buffer) {
-
-}
+export function saveUserImageAsFile(imageBuffer: Buffer) {}

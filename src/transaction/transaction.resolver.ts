@@ -27,4 +27,12 @@ export class TransactionResolver {
   ): Promise<GrapQLTypes.Transaction[]> {
     return this.transactyionServices.getUserTransactions(req.user.id);
   }
+
+  @Mutation("removeTransaction")
+  async removeTransaction(
+    @Args("transactionId") transactionId: number,
+    @Context() req: UserFromContext,
+  ): Promise<GrapQLTypes.Transaction> {
+    return this.transactyionServices.removeTransaction(transactionId, req.user);
+  }
 }

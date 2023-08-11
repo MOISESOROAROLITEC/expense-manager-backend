@@ -65,4 +65,47 @@ export class TransactionService {
     });
     return transactions;
   }
+
+  async removeTransaction(
+    transactionId: number,
+    user: GrapQLTypes.User,
+  ): Promise<GrapQLTypes.Transaction> {
+    try {
+      let amountLeft: number;
+      const transaction = await prisma.transaction.findUnique({
+        where: { id: transactionId },
+      });
+
+      if (transaction.transactionType === "Credit") {
+        amountLeft = user.amount - transaction.amount;
+      } else {
+        amountLeft = user.amount + transaction.amount;
+      }
+
+      if (amountLeft < 0) {
+        throw new Error(
+          "Impossible d'annuler cette transaction car le montant de votre compte sera négatif",
+        );
+      }
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { amount: amountLeft },
+      });
+
+      const transactionRemoved = await prisma.transaction.update({
+        where: { id: transactionId, userId: user.id },
+        data: { deletedAt: new Date() },
+      });
+      return transactionRemoved;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new UserInputError(error.message);
+      } else {
+        throw new UserInputError(
+          "Impossible de suprimer cette transaction, une erreur s'est produite",
+        );
+      }
+    }
+  }
 }
