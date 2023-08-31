@@ -7,6 +7,8 @@ import { UseGuards } from "@nestjs/common";
 import { AdminGuard } from "src/shared/guards/admin/admin.guard";
 import { Public } from "src/shared/decorators/public/public.decorator";
 import { UserFromContext } from "src/shared/interfaces";
+import { UserInputError } from "@nestjs/apollo";
+import { loginError } from "src/shared/throw-errors";
 
 @Resolver()
 export class UserResolver {
@@ -29,7 +31,7 @@ export class UserResolver {
   @Public()
   async create(
     @Args("createUserInput") createUserInput: CreateUserInput,
-  ): Promise<GraphQLTypes.User> {
+  ): Promise<GraphQLTypes.User | UserInputError> {
     return this.userService.create(createUserInput);
   }
 
@@ -37,8 +39,12 @@ export class UserResolver {
   @Mutation("loginUser")
   async login(
     @Args("loginUserInput") loginUserInput: LoginUserInput,
-  ): Promise<GraphQLTypes.User> {
-    return this.userService.login(loginUserInput);
+  ): Promise<GraphQLTypes.User | UserInputError> {
+    try {
+      return await this.userService.login(loginUserInput);
+    } catch (error) {
+      return loginError();
+    }
   }
 
   @Mutation("updateUserTarget")
@@ -47,5 +53,19 @@ export class UserResolver {
     @Context() req: UserFromContext,
   ): Promise<GraphQLTypes.User> {
     return this.userService.updateUserTarget(req.user, target);
+  }
+
+  @Mutation("deleteUsers")
+  @Public()
+  async deleteUsers(): Promise<{ count: number }> {
+    return await this.userService.deleteUsers();
+  }
+
+  @Mutation("deleteUserByEmail")
+  @Public()
+  deleteUserByEmail(@Args("email") email: string): Promise<GraphQLTypes.User> {
+    try {
+      return this.userService.deleteUserByEmail(email);
+    } catch (error) {}
   }
 }

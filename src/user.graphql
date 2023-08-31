@@ -17,9 +17,8 @@ type Transactions {
   transactions: [Transaction!]!
 }
 
-input InputImage {
-  fileName: String!
-  fileData: String!
+type DeleteUsersResponse {
+  count: Int!
 }
 
 input CreateUserInput {
@@ -35,18 +34,4 @@ input CreateUserInput {
 input LoginUserInput {
   email: String!
   password: String!
-}
-
-type UploadImageResponse {
-  status: Boolean!
-}
-
-type LoginResponse {
-  id: ID!
-  name: String!
-  email: String!
-  password: String!
-  birthDay: Date!
-  createAt: Date!
-  token: String!
 }

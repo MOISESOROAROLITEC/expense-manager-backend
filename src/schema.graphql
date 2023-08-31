@@ -15,4 +15,6 @@ type Mutation {
     createTransactionInput: CreateTransactionInput!
   ): Transaction!
   removeTransaction(transactionId: Int!): Transaction!
+  deleteUsers: DeleteUsersResponse!
+  deleteUserByEmail(email: String!): User!
 }
