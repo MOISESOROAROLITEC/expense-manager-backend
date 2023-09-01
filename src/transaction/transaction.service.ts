@@ -13,12 +13,9 @@ export class TransactionService {
     createTransactionInput: GrapQLTypes.CreateTransactionInput,
   ): Promise<GrapQLTypes.Transaction> {
     try {
-      const { transactionType, amount, accountType, date, subject } =
-        createTransactionInput;
+      const { transactionType, amount, accountType, date, subject } = createTransactionInput;
       if (amount <= 0) {
-        throw new UserInputError(
-          "Le montant d'une transaction doit être supérieur à zéro",
-        );
+        throw new UserInputError("Le montant d'une transaction doit être supérieur à zéro");
       }
       let amountUpdated: number;
       if (transactionType === "Debit") {
@@ -51,15 +48,12 @@ export class TransactionService {
       const err = error as Error;
 
       throw new UserInputError(
-        "Impossible de faire la transaction, le message d'erreur est : " +
-          err.message,
+        "Impossible de faire la transaction, le message d'erreur est : " + err.message,
       );
     }
   }
 
-  async getUserTransactions(
-    userId: number,
-  ): Promise<GrapQLTypes.Transaction[]> {
+  async getUserTransactions(userId: number): Promise<GrapQLTypes.Transaction[]> {
     const transactions = await prisma.transaction.findMany({
       where: { userId },
     });

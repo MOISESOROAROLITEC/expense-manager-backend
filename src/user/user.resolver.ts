@@ -8,7 +8,8 @@ import { AdminGuard } from "src/shared/guards/admin/admin.guard";
 import { Public } from "src/shared/decorators/public/public.decorator";
 import { UserFromContext } from "src/shared/interfaces";
 import { UserInputError } from "@nestjs/apollo";
-import { loginError } from "src/shared/throw-errors";
+import { loginError, returnError } from "src/shared/throw-errors";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 @Resolver()
 export class UserResolver {
@@ -16,14 +17,16 @@ export class UserResolver {
 
   @Query("users")
   @UseGuards(new AdminGuard())
-  async findAll(): Promise<GraphQLTypes.User[]> {
-    return this.userService.getUsers();
+  async findAll(): Promise<GraphQLTypes.User[] | UserInputError> {
+    try {
+      return await this.userService.getUsers();
+    } catch (error) {
+      return returnError();
+    }
   }
 
   @Query("user")
-  async getUserInformationByToken(
-    @Context() req: UserFromContext,
-  ): Promise<GraphQLTypes.User> {
+  async getUserInformationByToken(@Context() req: UserFromContext): Promise<GraphQLTypes.User> {
     return req.user;
   }
 
@@ -32,7 +35,16 @@ export class UserResolver {
   async create(
     @Args("createUserInput") createUserInput: CreateUserInput,
   ): Promise<GraphQLTypes.User | UserInputError> {
-    return this.userService.create(createUserInput);
+    try {
+      return await this.userService.create(createUserInput);
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          return returnError(`L'email '${createUserInput.email}' est déjà utilisé`);
+        }
+      }
+      return returnError();
+    }
   }
 
   @Public()
@@ -51,21 +63,42 @@ export class UserResolver {
   async updateUserTarget(
     @Args("target") target: number,
     @Context() req: UserFromContext,
-  ): Promise<GraphQLTypes.User> {
-    return this.userService.updateUserTarget(req.user, target);
+  ): Promise<GraphQLTypes.User | UserInputError> {
+    try {
+      return await this.userService.updateUserTarget(req.user, target);
+    } catch (error) {
+      return returnError(
+        "Impossible de modifier votre objectif, une erreur s'est produite. Veillez réesayer",
+      );
+    }
   }
 
   @Mutation("deleteUsers")
   @Public()
-  async deleteUsers(): Promise<{ count: number }> {
-    return await this.userService.deleteUsers();
+  async deleteUsers(): Promise<{ count: number } | UserInputError> {
+    try {
+      return await this.userService.deleteUsers();
+    } catch (error) {
+      return returnError("Impossible de supprimer les utilisateurs");
+    }
   }
 
   @Mutation("deleteUserByEmail")
   @Public()
-  deleteUserByEmail(@Args("email") email: string): Promise<GraphQLTypes.User> {
+  async deleteUserByEmail(
+    @Args("email") email: string,
+  ): Promise<GraphQLTypes.User | UserInputError> {
     try {
-      return this.userService.deleteUserByEmail(email);
-    } catch (error) {}
+      return await this.userService.deleteUserByEmail(email);
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          return returnError(
+            `L'email ${email} n'appartient à aucun utilisateur : PrismaClientKnownRequestError`,
+          );
+        }
+      }
+      return returnError();
+    }
   }
 }

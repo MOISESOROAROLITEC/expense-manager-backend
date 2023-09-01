@@ -21,41 +21,27 @@ export class UserService {
     return users;
   }
 
-  async create(
-    createUserInput: CreateUserInput,
-  ): Promise<GraphQLTypes.User | UserInputError> {
-    try {
-      const { name, email, password, birthDay, amount, target } =
-        createUserInput;
-      const passwordHashed = await hashPassword(password);
+  async create(createUserInput: CreateUserInput): Promise<GraphQLTypes.User | UserInputError> {
+    const { name, email, password, birthDay, amount, target } = createUserInput;
+    const passwordHashed = await hashPassword(password);
 
-      const user = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: passwordHashed,
-          birthDay,
-          amount,
-          target,
-        },
-      });
-      const token = generateToken({ id: user.id, name: user.name });
-      await prisma.user.update({
-        where: { email },
-        data: { token },
-      });
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: passwordHashed,
+        birthDay,
+        amount,
+        target,
+      },
+    });
+    const token = generateToken({ id: user.id, name: user.name });
+    await prisma.user.update({
+      where: { email },
+      data: { token },
+    });
 
-      return { ...user, token };
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code === "P2002") {
-          return new UserInputError(
-            `L'email '${createUserInput.email}' est déjà utilisé`,
-          );
-        }
-      }
-      throw new UserInputError(`Une erreur server s'est produite`);
-    }
+    return { ...user, token };
   }
 
   async login(loginUserInput: LoginUserInput): Promise<GraphQLTypes.User> {
@@ -80,21 +66,12 @@ export class UserService {
     return user;
   }
 
-  async updateUserTarget(
-    user: GraphQLTypes.User,
-    newTarget: number,
-  ): Promise<GraphQLTypes.User> {
-    try {
-      let userUpdated = await prisma.user.update({
-        where: { id: user.id },
-        data: { target: newTarget },
-      });
-      return userUpdated;
-    } catch (error) {
-      throw new UserInputError(
-        "Impossible de modifier votre objectif, une erreur s'est produite. Veillez réesayer",
-      );
-    }
+  async updateUserTarget(user: GraphQLTypes.User, newTarget: number): Promise<GraphQLTypes.User> {
+    let userUpdated = await prisma.user.update({
+      where: { id: user.id },
+      data: { target: newTarget },
+    });
+    return userUpdated;
   }
   async deleteUsers(): Promise<{ count: number }> {
     const { count } = await prisma.user.deleteMany();
@@ -102,23 +79,7 @@ export class UserService {
   }
 
   async deleteUserByEmail(email: string): Promise<GraphQLTypes.User> {
-    try {
-      const user = await prisma.user.delete({ where: { email } });
-      if (!user) {
-        throw new UserInputError(
-          `L'email ${email} n'appartient à aucun utilisateur`,
-        );
-      }
-      return user;
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code === "P2025") {
-          throw new UserInputError(
-            `L'email ${email} n'appartient à aucun utilisateur`,
-          );
-        }
-      }
-      throw new UserInputError(`Une erreur server s'est produite`);
-    }
+    const user = await prisma.user.delete({ where: { email } });
+    return user;
   }
 }

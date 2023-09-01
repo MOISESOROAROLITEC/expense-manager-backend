@@ -27,15 +27,13 @@ export function generateResetToken(email: string): string {
   return jwt.sign(email, secretKey);
 }
 
-export function decryptToken(
-  token: string,
-): string | jwt.JwtPayload | undefined {
+export function decryptToken(token: string): string | jwt.JwtPayload | undefined {
   const secretKey = process.env.SECRET_KEY;
 
   try {
     return jwt.verify(token, secretKey);
   } catch (error) {
-    undefined;
+    return undefined;
   }
 }
 
@@ -63,17 +61,13 @@ export const verifyEmail = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserByToken = async (
-  bearerToken: string,
-): Promise<GetUserByToken> => {
+export const getUserByToken = async (bearerToken: string): Promise<GetUserByToken> => {
   try {
-    if (!bearerToken || !bearerToken.startsWith("Bearer ")) {
+    if (!bearerToken?.startsWith("Bearer ")) {
       return { status: 400, message: "Faite la requete avec un Bearer token" };
     }
     const token = bearerToken.substring(7);
-    const tokenDecrypted = decryptToken(token) as
-      | tokenDecryptedInterface
-      | undefined;
+    const tokenDecrypted = decryptToken(token) as tokenDecryptedInterface | undefined;
     if (!tokenDecrypted) {
       return { status: 401, message: "Le token est incorrect" };
     }
@@ -91,5 +85,3 @@ export const getUserByToken = async (
     return { status: 500, message: "Le serveur a craché" };
   }
 };
-
-export function saveUserImageAsFile(imageBuffer: Buffer) {}
