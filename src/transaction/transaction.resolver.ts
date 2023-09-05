@@ -16,24 +16,14 @@ export class TransactionResolver {
     @Context() req: UserFromContext,
   ): Promise<GrapQLTypes.Transaction | UserInputError> {
     try {
-      return await this.transactyionServices.create(
-        req.user.id,
-        req.user.amount,
-        createTransactionInput,
-      );
+      return await this.transactyionServices.create(createTransactionInput);
     } catch (error) {}
   }
 
   @Query("getUserTransactions")
-  async getTransactions(@Context() req: UserFromContext): Promise<GrapQLTypes.Transaction[]> {
-    return this.transactyionServices.getUserTransactions(req.user.id);
-  }
-
-  @Mutation("removeTransaction")
-  async removeTransaction(
-    @Args("transactionId") transactionId: number,
+  async getTransactions(
     @Context() req: UserFromContext,
-  ): Promise<GrapQLTypes.Transaction> {
-    return this.transactyionServices.removeTransaction(transactionId, req.user);
+  ): Promise<GrapQLTypes.Transaction[]> {
+    return this.transactyionServices.getUserTransactions(req.user.id);
   }
 }

@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver, Context } from "@nestjs/graphql";
 import * as GraphQLTypes from "src/graphql-types";
-import { CreateUserInput } from "./dto/create-user.dto";
+import { CreateUserInputDTO } from "./dto/create-user.dto";
 import { UserService } from "./user.service";
-import { LoginUserInput } from "./dto/login-user.dto";
+import { LoginUserInputDTO } from "./dto/login-user.dto";
 import { UseGuards } from "@nestjs/common";
 import { AdminGuard } from "src/shared/guards/admin/admin.guard";
 import { Public } from "src/shared/decorators/public/public.decorator";
@@ -10,6 +10,8 @@ import { UserFromContext } from "src/shared/interfaces";
 import { UserInputError } from "@nestjs/apollo";
 import { loginError, returnError } from "src/shared/throw-errors";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { UpdateUserInputDTO } from "./dto/update-user.dto";
+import { catchUserUniqueContrainteError } from "./utilities/catch-errors";
 
 @Resolver()
 export class UserResolver {
@@ -26,21 +28,23 @@ export class UserResolver {
   }
 
   @Query("user")
-  async getUserInformationByToken(@Context() req: UserFromContext): Promise<GraphQLTypes.User> {
+  async getUserInformationByToken(
+    @Context() req: UserFromContext,
+  ): Promise<GraphQLTypes.User> {
     return req.user;
   }
 
-  @Mutation("createUser")
   @Public()
+  @Mutation("createUser")
   async create(
-    @Args("createUserInput") createUserInput: CreateUserInput,
+    @Args("createUserInput") createUserInput: CreateUserInputDTO,
   ): Promise<GraphQLTypes.User | UserInputError> {
     try {
       return await this.userService.create(createUserInput);
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2002") {
-          return returnError(`L'email '${createUserInput.email}' est déjà utilisé`);
+          return catchUserUniqueContrainteError(error, createUserInput);
         }
       }
       return returnError();
@@ -50,26 +54,46 @@ export class UserResolver {
   @Public()
   @Mutation("loginUser")
   async login(
-    @Args("loginUserInput") loginUserInput: LoginUserInput,
+    @Args("loginUserInput") loginUserInput: LoginUserInputDTO,
   ): Promise<GraphQLTypes.User | UserInputError> {
     try {
+      const { email, phone } = loginUserInput;
+      if (!email && !phone) {
+        return returnError(
+          "Utilisez votre email ou votre numéro de téléphone pour vous connecter",
+        );
+      }
       return await this.userService.login(loginUserInput);
     } catch (error) {
-      return loginError();
+      return loginError(loginUserInput);
     }
   }
 
-  @Mutation("updateUserTarget")
-  async updateUserTarget(
-    @Args("target") target: number,
+  @Mutation("updateUser")
+  async update(
+    @Args("updateUserInput") updateUserInput: UpdateUserInputDTO,
     @Context() req: UserFromContext,
   ): Promise<GraphQLTypes.User | UserInputError> {
     try {
-      return await this.userService.updateUserTarget(req.user, target);
+      return await this.userService.update(req.user, updateUserInput);
     } catch (error) {
-      return returnError(
-        "Impossible de modifier votre objectif, une erreur s'est produite. Veillez réesayer",
-      );
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          return catchUserUniqueContrainteError(error, updateUserInput);
+        }
+      }
+      return returnError();
+    }
+  }
+
+  @Query("getUserByToken")
+  async getUserByToken(
+    @Context() req: UserFromContext,
+  ): Promise<GraphQLTypes.User | UserInputError> {
+    try {
+      return req.user;
+    } catch (error) {
+      return returnError();
     }
   }
 
@@ -83,7 +107,7 @@ export class UserResolver {
     }
   }
 
-  @Mutation("deleteUserByEmail")
+  @Mutation("deleteUserByEmailOrPhone")
   @Public()
   async deleteUserByEmail(
     @Args("email") email: string,
@@ -93,9 +117,7 @@ export class UserResolver {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2025") {
-          return returnError(
-            `L'email ${email} n'appartient à aucun utilisateur : PrismaClientKnownRequestError`,
-          );
+          return returnError(`L'email ${email} n'appartient à aucun utilisateur`);
         }
       }
       return returnError();

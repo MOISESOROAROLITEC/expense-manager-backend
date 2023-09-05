@@ -3,6 +3,7 @@ import * as bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { GetUserByToken, tokenDecryptedInterface } from "./interfaces";
+import { User } from "src/graphql-types";
 
 const prisma = new PrismaClient();
 
@@ -20,6 +21,18 @@ export function generateToken(userData: { id: number; name: string }): string {
   const options = { expiresIn: "1d" };
   const secretKey = process.env.SECRET_KEY || "";
   return jwt.sign(userData, secretKey, options);
+}
+
+export async function comparePasswordAndGenerateNewToken(
+  user: User,
+  password: string,
+): Promise<string> {
+  const isMatch = comparePassword(password, user.password);
+  if (!isMatch) {
+    throw new Error("Mot de passe incorrect.");
+  }
+  const token = generateToken({ id: user.id, name: user.phone });
+  return token;
 }
 
 export function generateResetToken(email: string): string {
@@ -72,7 +85,7 @@ export const getUserByToken = async (bearerToken: string): Promise<GetUserByToke
       return { status: 401, message: "Le token est incorrect" };
     }
     const user = await prisma.user.findUnique({
-      where: { id: tokenDecrypted.id, token },
+      where: { id: tokenDecrypted.id, AND: { token } },
     });
     if (!user) {
       return {

@@ -1,0 +1,12 @@
+type Chalenge {
+  id: Int!
+  name: String!
+  describe: String
+  target: Int!
+  amount: Int!
+  duration: Date!
+  createAt: Date!
+  deleteAt: Date
+  User: User!
+  transactions: [Transaction!]!
+}

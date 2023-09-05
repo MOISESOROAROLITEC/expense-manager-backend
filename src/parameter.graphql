@@ -1,0 +1,6 @@
+type Userparameter {
+  id: ID!
+  showInformations: Boolean
+  showChalanges: Boolean
+  User: User
+}

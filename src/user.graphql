@@ -1,15 +1,44 @@
 type User {
   id: ID!
   name: String!
-  email: String!
+  email: String
   password: String!
-  birthDay: Date!
+  birthday: Date!
+  phone: String!
+  countryResidence: String!
+  originCountry: String
   image: String
   token: String
-  amount: Int!
-  target: Int!
   createAt: Date!
-  transactions(pageSize: Int!, offset: Int!): Transactions!
+  parameter: Userparameter
+  chalenges: [Chalenge]
+}
+
+input CreateUserInput {
+  name: String!
+  email: String
+  password: String!
+  birthday: Date!
+  phone: String!
+  countryResidence: String!
+  originCountry: String!
+}
+
+input LoginUserInput {
+  email: String
+  phone: String
+  password: String!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  oldPassword: String
+  password: String
+  birthday: Date
+  phone: String
+  countryResidence: String
+  originCountry: String
 }
 
 type Transactions {
@@ -19,19 +48,4 @@ type Transactions {
 
 type DeleteUsersResponse {
   count: Int!
-}
-
-input CreateUserInput {
-  name: String!
-  email: String!
-  password: String!
-  birthDay: String!
-  image: Upload
-  amount: Int
-  target: Int
-}
-
-input LoginUserInput {
-  email: String!
-  password: String!
 }

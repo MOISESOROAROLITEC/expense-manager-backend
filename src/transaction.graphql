@@ -4,18 +4,18 @@ type Transaction {
   id: ID!
   transactionType: Enumerator!
   amount: Int!
-  accountType: Enumerator!
   subject: String
   date: Date!
   author: User
   deletedAt: Date
   createAt: Date!
+  chalengeId: Int!
 }
 
 input CreateTransactionInput {
   transactionType: Enumerator!
   amount: Int!
-  accountType: Enumerator!
   subject: String
   date: String!
+  chalengeId: Int!
 }

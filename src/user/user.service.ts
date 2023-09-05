@@ -1,16 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { CreateUserInput } from "./dto/create-user.dto";
 import * as GraphQLTypes from "src/graphql-types";
 import { PrismaClient } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { UserInputError } from "@nestjs/apollo";
 import {
   comparePassword,
+  comparePasswordAndGenerateNewToken,
   generateToken,
   getUserByToken,
   hashPassword,
 } from "src/shared/user-utilities";
-import { LoginUserInput } from "./dto/login-user.dto";
+import { returnError } from "src/shared/throw-errors";
 
 const prisma = new PrismaClient();
 
@@ -21,8 +20,11 @@ export class UserService {
     return users;
   }
 
-  async create(createUserInput: CreateUserInput): Promise<GraphQLTypes.User | UserInputError> {
-    const { name, email, password, birthDay, amount, target } = createUserInput;
+  async create(
+    createUserInput: GraphQLTypes.CreateUserInput,
+  ): Promise<GraphQLTypes.User | UserInputError> {
+    const { name, email, phone, password, birthday, countryResidence, originCountry } =
+      createUserInput;
     const passwordHashed = await hashPassword(password);
 
     const user = await prisma.user.create({
@@ -30,32 +32,51 @@ export class UserService {
         name,
         email,
         password: passwordHashed,
-        birthDay,
-        amount,
-        target,
+        birthday,
+        countryResidence,
+        originCountry,
+        phone,
+        parameter: { create: { showChalanges: true, showInformations: true } },
       },
     });
     const token = generateToken({ id: user.id, name: user.name });
     await prisma.user.update({
-      where: { email },
+      where: { id: user.id },
       data: { token },
     });
 
     return { ...user, token };
   }
 
-  async login(loginUserInput: LoginUserInput): Promise<GraphQLTypes.User> {
-    const { email, password } = loginUserInput;
-    const user = await prisma.user.findUniqueOrThrow({ where: { email } });
-    const isMatch = comparePassword(password, user.password);
-    if (!isMatch) {
-      throw new Error();
-    }
-    const newToken = generateToken({ id: user.id, name: user.name });
+  async login(loginUserInput: GraphQLTypes.LoginUserInput): Promise<GraphQLTypes.User> {
+    const { email, phone, password } = loginUserInput;
+    const user = await prisma.user.findUniqueOrThrow({ where: { email, phone } });
+    const newToken = await comparePasswordAndGenerateNewToken(user, password);
     return await prisma.user.update({
       where: { id: user.id },
       data: { token: newToken },
     });
+  }
+
+  async update(
+    user: GraphQLTypes.User,
+    updateUserInput: GraphQLTypes.UpdateUserInput,
+  ): Promise<GraphQLTypes.User | UserInputError> {
+    const { oldPassword, ...updateData } = updateUserInput;
+    const { password, email, phone } = updateUserInput;
+    if (password || email || phone) {
+      if (!oldPassword) {
+        return returnError(
+          "Pour modifier le mot de passe, l'email ou le numero de téléphone vous dévez entrer votre ancien mot de passe.",
+        );
+      }
+      const isMatch = comparePassword(oldPassword, user.password);
+      if (!isMatch) {
+        return returnError("Votre ancien mot de passe est incorrecte.");
+      }
+    }
+
+    return prisma.user.update({ where: { id: user.id }, data: { ...updateData } });
   }
 
   async getUserByToken(token: string): Promise<GraphQLTypes.User> {
@@ -66,13 +87,6 @@ export class UserService {
     return user;
   }
 
-  async updateUserTarget(user: GraphQLTypes.User, newTarget: number): Promise<GraphQLTypes.User> {
-    let userUpdated = await prisma.user.update({
-      where: { id: user.id },
-      data: { target: newTarget },
-    });
-    return userUpdated;
-  }
   async deleteUsers(): Promise<{ count: number }> {
     const { count } = await prisma.user.deleteMany();
     return { count };

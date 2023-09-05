@@ -1,4 +1,4 @@
-import { accountTypeEnum, transactionTypeEnum } from "src/shared/constances";
+import { transactionTypeEnum } from "src/shared/constances";
 import * as GraphQLTypes from "../../graphql-types";
 import { IsDateString, IsEnum, IsOptional, IsPositive } from "class-validator";
 
@@ -7,11 +7,6 @@ export class CreateTransactionDto extends GraphQLTypes.CreateTransactionInput {
     message: `Le type d'une transaction doit être soit '${transactionTypeEnum[0]}' soit '${transactionTypeEnum[1]}'`,
   })
   transactionType: string;
-
-  @IsEnum(accountTypeEnum, {
-    message: `Le type de compte doit être : '${accountTypeEnum[0]}' ou '${accountTypeEnum[1]}' ou '${accountTypeEnum[2]}'`,
-  })
-  accountType: string;
 
   @IsOptional()
   subject?: string;
@@ -23,4 +18,7 @@ export class CreateTransactionDto extends GraphQLTypes.CreateTransactionInput {
 
   @IsDateString({ strict: false })
   date: string;
+
+  @IsPositive({ message: "L'id du chalenge doit être un nombre positif." })
+  chalengeId: number;
 }
