@@ -25,15 +25,14 @@ input CreateUserInput {
 }
 
 input LoginUserInput {
-  email: String
-  phone: String
+  emailOrPhone: String!
   password: String!
 }
 
 input UpdateUserInput {
   name: String
   email: String
-  oldPassword: String
+  oldPassword: String!
   password: String
   birthday: Date
   phone: String

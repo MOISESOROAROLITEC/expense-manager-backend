@@ -57,12 +57,6 @@ export class UserResolver {
     @Args("loginUserInput") loginUserInput: LoginUserInputDTO,
   ): Promise<GraphQLTypes.User | UserInputError> {
     try {
-      const { email, phone } = loginUserInput;
-      if (!email && !phone) {
-        return returnError(
-          "Utilisez votre email ou votre numéro de téléphone pour vous connecter",
-        );
-      }
       return await this.userService.login(loginUserInput);
     } catch (error) {
       return loginError(loginUserInput);

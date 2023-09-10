@@ -5,6 +5,8 @@ import {
   IsPhoneNumber,
   IsString,
   Length,
+  MaxLength,
+  MinLength,
 } from "class-validator";
 import * as GraphQLTypes from "src/graphql-types";
 
@@ -25,7 +27,6 @@ export class UpdateUserInputDTO extends GraphQLTypes.UpdateUserInput {
   })
   password: string;
 
-  @IsOptional()
   @Length(8, 50, {
     message: "Le mot de pass doit contenir au moin 8 caractères et au plus 50.",
   })
@@ -41,9 +42,21 @@ export class UpdateUserInputDTO extends GraphQLTypes.UpdateUserInput {
 
   @IsOptional()
   @IsString()
+  @MinLength(3, {
+    message: "Le nom du pays de residence doit contenir au moin 3 caractères ",
+  })
+  @MaxLength(50, {
+    message: "Le nom du pays de residence doit contenir au plus 50 caractères ",
+  })
   countryResidence: string;
 
   @IsOptional()
   @IsString()
+  @MinLength(3, {
+    message: "Le nom du pays d'origine doit contenir au moin 3 caractères ",
+  })
+  @MaxLength(50, {
+    message: "Le nom du pays d'origine doit contenir au plus 50 caractères ",
+  })
   originCountry: string;
 }

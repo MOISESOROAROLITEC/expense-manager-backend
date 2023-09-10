@@ -27,7 +27,7 @@ model Userparameter {
   id               Int     @id @default(autoincrement())
   showInformations Boolean @default(true)
   showChalanges    Boolean @default(true)
-  User             User    @relation(fields: [userId], references: [id])
+  User             User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId           Int     @unique
 }
 

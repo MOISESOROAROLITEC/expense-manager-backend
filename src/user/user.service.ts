@@ -8,6 +8,7 @@ import {
   generateToken,
   getUserByToken,
   hashPassword,
+  loginWithEmailOrPhone,
 } from "src/shared/user-utilities";
 import { returnError } from "src/shared/throw-errors";
 
@@ -49,9 +50,12 @@ export class UserService {
   }
 
   async login(loginUserInput: GraphQLTypes.LoginUserInput): Promise<GraphQLTypes.User> {
-    const { email, phone, password } = loginUserInput;
+    let { email, phone } = loginWithEmailOrPhone(loginUserInput.emailOrPhone);
     const user = await prisma.user.findUniqueOrThrow({ where: { email, phone } });
-    const newToken = await comparePasswordAndGenerateNewToken(user, password);
+    const newToken = await comparePasswordAndGenerateNewToken(
+      user,
+      loginUserInput.password,
+    );
     return await prisma.user.update({
       where: { id: user.id },
       data: { token: newToken },

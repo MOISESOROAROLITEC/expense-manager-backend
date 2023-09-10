@@ -1,5 +1,6 @@
 import { UserInputError } from "@nestjs/apollo";
 import { LoginUserInput } from "src/graphql-types";
+import { isValideEmail } from "./user-utilities";
 
 export function returnError(message?: string): UserInputError {
   if (message) {
@@ -10,9 +11,9 @@ export function returnError(message?: string): UserInputError {
 }
 
 export function loginError(loginUserInput: LoginUserInput): UserInputError {
-  if (loginUserInput.email) {
-    return returnError("L'email ou le mot de passe est incorrect");
-  } else {
+  if (Number(loginUserInput.emailOrPhone)) {
     return returnError("Le numéro de téléphone ou le mot de passe est incorrect");
+  } else {
+    return returnError("L'email ou le mot de passe est incorrect");
   }
 }

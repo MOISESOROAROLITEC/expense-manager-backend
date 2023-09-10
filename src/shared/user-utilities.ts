@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { GetUserByToken, tokenDecryptedInterface } from "./interfaces";
 import { User } from "src/graphql-types";
+import { emailValidateRegExp, phoneValidateRegExp } from "./constances";
 
 const prisma = new PrismaClient();
 
@@ -52,6 +53,27 @@ export function decryptToken(token: string): string | jwt.JwtPayload | undefined
 
 export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
+}
+
+export function isValideEmail(email: string): boolean {
+  return emailValidateRegExp.test(email);
+}
+
+export function isValidePhone(phoneNumber: string): boolean {
+  const phone = phoneNumber.startsWith("+") ? phoneNumber.split("+")[1] : phoneNumber;
+  return phoneValidateRegExp.test(phone);
+}
+
+export function loginWithEmailOrPhone(emailOrPhone: string): {
+  email: string | undefined;
+  phone: string | undefined;
+} {
+  return isValidePhone(emailOrPhone)
+    ? {
+        email: undefined,
+        phone: emailOrPhone.startsWith("+") ? emailOrPhone : "+" + emailOrPhone,
+      }
+    : { email: emailOrPhone, phone: undefined };
 }
 
 export function comparePassword(password: string, hash: string): boolean {
